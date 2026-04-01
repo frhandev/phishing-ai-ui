@@ -1,7 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from inference import predict_from_dataframe
-
+from src.model.inference import predict_from_dataframe
 
 def predict_from_csv(input_csv_path: str, output_csv_path: str) -> None:
     input_path = Path(input_csv_path)
