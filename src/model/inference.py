@@ -5,10 +5,15 @@ import pandas as pd
 from pathlib import Path
 from typing import Union
 
+from src.model.feature_extractor import extract_url_features
+
 
 ARTIFACTS_DIR = Path(__file__).resolve().parent / "artifacts"
 MODEL_PATH = ARTIFACTS_DIR / "phishing_url_model.pkl"
 FEATURES_PATH = ARTIFACTS_DIR / "url_features.pkl"
+
+RAW_URL_MODEL_PATH = ARTIFACTS_DIR / "raw_url_model.pkl"
+RAW_URL_FEATURES_PATH = ARTIFACTS_DIR / "raw_url_features.pkl"
 
 
 def load_model_artifacts():
@@ -20,6 +25,18 @@ def load_model_artifacts():
 
     model = joblib.load(MODEL_PATH)
     feature_list = joblib.load(FEATURES_PATH)
+
+    return model, feature_list
+
+def load_raw_url_model_artifacts():
+    if not RAW_URL_MODEL_PATH.exists():
+        raise FileNotFoundError(f"Raw URL model file not found: {RAW_URL_MODEL_PATH}")
+
+    if not RAW_URL_FEATURES_PATH.exists():
+        raise FileNotFoundError(f"Raw URL feature list file not found: {RAW_URL_FEATURES_PATH}")
+
+    model = joblib.load(RAW_URL_MODEL_PATH)
+    feature_list = joblib.load(RAW_URL_FEATURES_PATH)
 
     return model, feature_list
 
@@ -65,33 +82,32 @@ def predict_from_dataframe(data: Union[pd.DataFrame, dict]) -> pd.DataFrame:
 
     return results
 
+def predict_from_url(url: str) -> pd.DataFrame:
+    model, feature_list = load_raw_url_model_artifacts()
+
+    extracted_features = extract_url_features(url)
+
+    X = prepare_input(extracted_features, feature_list)
+
+    predictions = model.predict(X)
+    probabilities = model.predict_proba(X)
+
+    results = pd.DataFrame({
+        "prediction": predictions,
+        "legitimate_probability": probabilities[:, 0],
+        "phishing_probability": probabilities[:, 1]
+    })
+
+    return results
+
 
 if __name__ == "__main__":
-    sample_input = {
-        "URLLength": 54,
-        "DomainLength": 18,
-        "IsDomainIP": 0,
-        "TLDLegitimateProb": 0.4,
-        "URLCharProb": 0.03,
-        "TLDLength": 3,
-        "NoOfSubDomain": 1,
-        "HasObfuscation": 0,
-        "NoOfObfuscatedChar": 0,
-        "ObfuscationRatio": 0.0,
-        "NoOfLettersInURL": 35,
-        "LetterRatioInURL": 0.64,
-        "NoOfDegitsInURL": 4,
-        "DegitRatioInURL": 0.07,
-        "NoOfEqualsInURL": 0,
-        "NoOfQMarkInURL": 1,
-        "NoOfAmpersandInURL": 0,
-        "NoOfOtherSpecialCharsInURL": 3,
-        "SpacialCharRatioInURL": 0.05,
-        "IsHTTPS": 1,
-        "DomainTitleMatchScore": 0.0,
-        "URLTitleMatchScore": 0.0,
-        "CharContinuationRate": 0.8
-    }
+    test_url = "https://example.com/login?user=test&id=123"
 
-    output = predict_from_dataframe(sample_input)
+    output = predict_from_url(test_url)
+
+    print("Input URL:")
+    print(test_url)
+
+    print("\nPrediction output:")
     print(output)
