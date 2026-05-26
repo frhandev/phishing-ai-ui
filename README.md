@@ -57,55 +57,61 @@ Initial dataset shape:
 
 Basic EDA findings:
 
-No missing values
-No duplicated rows
-No constant columns
-Text columns were identified separately
-Label distribution was checked and verified
-Project Structure
+- No missing values
+- No duplicated rows
+- No constant columns
+- Text columns were identified separately
+- Label distribution was checked and verified
+
+---
+
+## Project Structure
+
+```text
 phishing-ai-ui/
 │
 ├── data/
-│ ├── raw/
-│ └── processed/
+│   ├── raw/
+│   └── processed/
 │
 ├── docs/
 │
 ├── notebooks/
-│ └── 01_eda_and_modeling.ipynb
+│   └── 01_eda_and_modeling.ipynb
 │
 ├── reports/
 │
 ├── src/
-│ ├── api/
-│ ├── model/
-│ │ ├── artifacts/
-│ │ ├── batch_predict.py
-│ │ ├── feature_extractor.py
-│ │ ├── inference.py
-│ │ └── raw_url_batch_predict.py
-│ │
-│ └── ui/
-│ └── app.py
+│   ├── api/
+│   ├── model/
+│   │   ├── artifacts/
+│   │   ├── batch_predict.py
+│   │   ├── feature_extractor.py
+│   │   ├── inference.py
+│   │   └── raw_url_batch_predict.py
+│   │
+│   └── ui/
+│       └── app.py
 │
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-Modeling Workflow
+```
+
+## Modeling Workflow
 
 The modeling process followed these steps:
 
-Exploratory Data Analysis
-Label meaning verification
-Baseline model training
-Suspicious feature / leakage check
-Model benchmarking
-Raw URL feature extraction
-Training a deployment-ready model
-Saving model artifacts
-Building inference functions
-Building Streamlit UI
-Important Modeling Decision
+1. Exploratory Data Analysis
+2. Label meaning verification
+3. Baseline model training
+4. Suspicious feature / leakage check
+5. Model benchmarking
+6. Raw URL feature extraction
+7. Training a deployment-ready model
+8. Saving model artifacts
+9. Building inference functions
+10. Building Streamlit UI
 
 Some dataset features are not directly extractable from a raw URL in a real user interface.
 
