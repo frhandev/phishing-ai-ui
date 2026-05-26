@@ -1,0 +1,6 @@
+URL,prediction,prediction_label,phishing_probability,legitimate_probability
+https://www.google.com,1,Legitimate,0.0023402755606179992,0.997659724439382
+https://example.com/login?user=test&id=123,0,Phishing,0.9999999999990365,9.634176404625165e-13
+paypal-security-check.com/login,0,Phishing,0.9999999970162071,2.983792851710585e-09
+http://free-gift-card-login.ru/verify?account=123,0,Phishing,0.9999999999949274,5.0726490966597406e-12
+http://192.168.1.1/login,0,Phishing,0.9999999800885377,1.991146225539803e-08
