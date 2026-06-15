@@ -1,0 +1,4 @@
+Model,Accuracy,Precision_Class_1,Recall_Class_1,F1_Class_1,Phishing_Precision,Phishing_Recall,Phishing_F1
+HistGradientBoosting,0.997498,0.995827,0.999815,0.997817,0.999751,0.994403,0.99707
+Random Forest,0.996904,0.995859,0.998739,0.997297,0.998309,0.994452,0.996377
+Logistic Regression,0.996141,0.993806,0.999481,0.996635,0.999301,0.991679,0.995475
